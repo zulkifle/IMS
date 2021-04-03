@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
   <meta charset="utf-8">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Inventory Management System | @yield('title')</title>
+  <title>FizeeRR IMS | @yield('title')</title>
   <!-- Tell the browser to be responsive to screen width -->
-  <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="{{asset('plugins/fontawesome-free/css/all.min.css')}}">
+  <link rel="stylesheet" href="{{asset('/plugins/fontawesome-free/css/all.min.css')}}">
   <!-- Ionicons -->
   <link href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
   <!-- Tempusdominus Bbootstrap 4 -->
@@ -20,6 +20,13 @@
   <link rel="stylesheet" href="{{asset('plugins/jqvmap/jqvmap.min.css')}}">
   <!-- Theme style -->
   <link rel="stylesheet" href="{{asset('dist/css/adminlte.min.css')}}">
+  <!-- Select2 -->
+  <link rel="stylesheet" href="{{asset('plugins/select2/css/select2.min.css')}}">
+  <link rel="stylesheet" href="{{asset('plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css')}}">
+
+  <link rel="stylesheet" href="{{asset('plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css')}}">
+  <!-- Bootstrap4 Duallistbox -->
+  <link rel="stylesheet" href="{{asset('plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css')}}">
   <!-- overlayScrollbars -->
   <link rel="stylesheet" href="{{asset('plugins/overlayScrollbars/css/OverlayScrollbars.min.css')}}">
   <!-- Daterange picker -->
@@ -27,8 +34,17 @@
   <!-- summernote -->
   <link rel="stylesheet" href="{{asset('plugins/summernote/summernote-bs4.css')}}">
 
+  <link rel="stylesheet" href="{{asset('plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css')}}">
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+
+  <!-- DataTables -->
+  <link rel="stylesheet" href="{{asset('/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')}}">
+  <link rel="stylesheet" href="{{asset('/plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
+
+  @stack('meta')
+
+
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
@@ -41,7 +57,7 @@
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="{{ url('/home') }}" class="nav-link">Home</a>
+        <a href="{{ route('home') }}" class="nav-link">Home</a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
         <a href="#" class="nav-link">Contact</a>
@@ -75,10 +91,10 @@
               <img src="{{asset('dist/img/user1-128x128.jpg')}}"  alt="User Avatar" class="img-size-50 mr-3 img-circle">
               <div class="media-body">
                 <h3 class="dropdown-item-title">
-                  Brad Diesel
+                  Hakim Ahmad
                   <span class="float-right text-sm text-danger"><i class="fas fa-star"></i></span>
                 </h3>
-                <p class="text-sm">Call me whenever you can...</p>
+                <p class="text-sm">Pape roger brg boek...</p>
                 <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
               </div>
             </div>
@@ -91,10 +107,10 @@
               <img src="{{asset('dist/img/user8-128x128.jpg')}}"  alt="User Avatar" class="img-size-50 img-circle mr-3">
               <div class="media-body">
                 <h3 class="dropdown-item-title">
-                  John Pierce
+                  Usop Kambing
                   <span class="float-right text-sm text-muted"><i class="fas fa-star"></i></span>
                 </h3>
-                <p class="text-sm">I got your message bro</p>
+                <p class="text-sm">Cendol ade jual tak?</p>
                 <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
               </div>
             </div>
@@ -107,10 +123,10 @@
               <img src="{{asset('dist/img/user3-128x128.jpg')}}" alt="User Avatar" class="img-size-50 img-circle mr-3">
               <div class="media-body">
                 <h3 class="dropdown-item-title">
-                  Nora Silvester
+                  Norashikin
                   <span class="float-right text-sm text-warning"><i class="fas fa-star"></i></span>
                 </h3>
-                <p class="text-sm">The subject goes here</p>
+                <p class="text-sm">Sticker UMA Racing 2</p>
                 <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
               </div>
             </div>
@@ -148,10 +164,28 @@
         </div>
       </li>
       <li class="nav-item">
+        <a class="nav-link" data-toggle="dropdown" href="#">
+          <i class="fas fa-th-large"></i>
+          <span class="badge badge-warning navbar-badge"></span>
+        </a>
+        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+          <span class="dropdown-item dropdown-header">Option</span>
+          <div class="dropdown-divider"></div>
+          <a href="{{ route('logout') }}" class="dropdown-item" onclick="event.preventDefault();
+          document.getElementById('logout-form').submit();">
+             Sign Out
+            <span class="float-right text-muted text-sm"><i class="fas fa-reply"></i></span>
+          </a>
+          <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+            @csrf
+        </form>
+        </div>
+      </li>
+      {{-- <li class="nav-item">
         <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
           <i class="fas fa-th-large"></i>
         </a>
-      </li>
+      </li> --}}
     </ul>
   </nav>
   <!-- /.navbar -->
@@ -162,7 +196,7 @@
     <a href="#" class="brand-link navbar-gray">
       <img src="{{asset('dist/img/AdminLTELogo.png')}}"  class="brand-image img-circle elevation-3"
            style="opacity: .8">
-      <span class="brand-text font-weight-light">FazInventory</span>
+      <span class="brand-text font-weight-light">FizeeRR IMS</span>
     </a>
 
     <!-- Sidebar -->
@@ -170,10 +204,10 @@
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-          <img src="{{asset('dist/img/user2-160x160.jpg')}}" class="img-circle elevation-2" alt="User Image">
+          <img src="{{asset('/dist/img/avatar04.png')}}" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block">Alexander Pierce</a>
+          <a href="#" class="d-block">{{ Auth::user()->name }}</a>
         </div>
       </div>
 
@@ -181,7 +215,7 @@
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <li class="nav-item">
-            <a href="{{ url('/home') }}" class="nav-link">
+            <a href="{{ route('home') }}" class="nav-link">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Dashboard
@@ -189,219 +223,28 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="pages/widgets.html" class="nav-link">
-              <i class="nav-icon fas fa-th"></i>
+            <a href="{{ route('list_item') }}" class="nav-link">
+              <i class="nav-icon fas fa-search"></i>
               <p>
-                Widgets
-                <span class="right badge badge-danger">New</span>
+                List of items
               </p>
             </a>
           </li>
-          <li class="nav-item has-treeview">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-copy"></i>
+          <li class="nav-item">
+            <a href="{{ route('select_item') }}" class="nav-link">
+              <i class="nav-icon fas fa-inbox"></i>
               <p>
-                Layout Options
-                <i class="fas fa-angle-left right"></i>
-                <span class="badge badge-info right">6</span>
+                Order
               </p>
             </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="pages/layout/top-nav.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Top Navigation</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/layout/top-nav-sidebar.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Top Navigation + Sidebar</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/layout/boxed.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Boxed</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/layout/fixed-sidebar.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Fixed Sidebar</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/layout/fixed-topnav.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Fixed Navbar</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/layout/fixed-footer.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Fixed Footer</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/layout/collapsed-sidebar.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Collapsed Sidebar</p>
-                </a>
-              </li>
-            </ul>
           </li>
-          <li class="nav-item has-treeview">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-chart-pie"></i>
-              <p>
-                Charts
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="pages/charts/chartjs.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>ChartJS</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/charts/flot.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Flot</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/charts/inline.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Inline</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-item has-treeview">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-tree"></i>
-              <p>
-                UI Elements
-                <i class="fas fa-angle-left right"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="pages/UI/general.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>General</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/UI/icons.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Icons</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/UI/buttons.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Buttons</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/UI/sliders.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Sliders</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/UI/modals.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Modals & Alerts</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/UI/navbar.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Navbar & Tabs</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/UI/timeline.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Timeline</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/UI/ribbons.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Ribbons</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-item has-treeview">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-edit"></i>
-              <p>
-                Forms
-                <i class="fas fa-angle-left right"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="pages/forms/general.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>General Elements</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/forms/advanced.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Advanced Elements</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/forms/editors.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Editors</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/forms/validation.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Validation</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-item has-treeview">
-            <a href="#" class="nav-link">
+          <li class="nav-item">
+            <a href="{{ route('checkout_list_item') }}" class="nav-link">
               <i class="nav-icon fas fa-table"></i>
               <p>
-                Tables
-                <i class="fas fa-angle-left right"></i>
+                Check-out Items
               </p>
             </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="pages/tables/simple.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Simple Tables</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/tables/data.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>DataTables</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/tables/jsgrid.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>jsGrid</p>
-                </a>
-              </li>
-            </ul>
           </li>
           <li class="nav-header">EXAMPLES</li>
           <li class="nav-item">
@@ -420,94 +263,6 @@
                 Gallery
               </p>
             </a>
-          </li>
-          <li class="nav-item has-treeview">
-            <a href="#" class="nav-link">
-              <i class="nav-icon far fa-envelope"></i>
-              <p>
-                Mailbox
-                <i class="fas fa-angle-left right"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="pages/mailbox/mailbox.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Inbox</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/mailbox/compose.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Compose</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/mailbox/read-mail.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Read</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-item has-treeview">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-book"></i>
-              <p>
-                Pages
-                <i class="fas fa-angle-left right"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="pages/examples/invoice.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Invoice</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/examples/profile.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Profile</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/examples/e-commerce.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>E-commerce</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/examples/projects.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Projects</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/examples/project-add.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Project Add</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/examples/project-edit.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Project Edit</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/examples/project-detail.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Project Detail</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/examples/contacts.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Contacts</p>
-                </a>
-              </li>
-            </ul>
           </li>
           <li class="nav-item has-treeview">
             <a href="#" class="nav-link">
@@ -591,13 +346,6 @@
                 </a>
               </li>
             </ul>
-          </li>
-          <li class="nav-header">MISCELLANEOUS</li>
-          <li class="nav-item">
-            <a href="https://adminlte.io/docs/3.0" class="nav-link">
-              <i class="nav-icon fas fa-file"></i>
-              <p>Documentation</p>
-            </a>
           </li>
           <li class="nav-header">MULTI LEVEL EXAMPLE</li>
           <li class="nav-item">
@@ -690,13 +438,19 @@
     <!-- /.sidebar -->
   </aside>
 
+
+
+
   @yield('content')
 
+
+
+
   <footer class="main-footer">
-    <strong>Copyright &copy; 2021 <a href=".">AdminSystem.io</a>.</strong>
+    <strong>Copyright &copy; 2021 <a href=".">Fizee.RR</a>.</strong>
     All rights reserved.
     <div class="float-right d-none d-sm-inline-block">
-      <b>Version</b> 3.0.5
+      <b>Version</b> 1.0
     </div>
   </footer>
 
@@ -708,39 +462,42 @@
 </div>
 <!-- ./wrapper -->
 
-<!-- jQuery -->
+@stack('before-script')
+
+<!-- General Script -->
 <script src="{{asset('plugins/jquery/jquery.min.js')}}"></script>
-<!-- jQuery UI 1.11.4 -->
 <script src="{{asset('plugins/jquery-ui/jquery-ui.min.js')}}"></script>
-<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
-<script>
-  $.widget.bridge('uibutton', $.ui.button)
-</script>
-<!-- Bootstrap 4 -->
-<script src="{{asset('js/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
-<!-- ChartJS -->
-<script src="{{asset('plugins/chart.js/Chart.min.js')}}"></script>
-<!-- Sparkline -->
-<script src="{{asset('plugins/sparklines/sparkline.js')}}"></script>
-<!-- JQVMap -->
-<script src="{{asset('plugins/jqvmap/jquery.vmap.min.js')}}"></script>
-<script src="{{asset('js/jqvmap/maps/jquery.vmap.usa.js')}}"></script>
-<!-- jQuery Knob Chart -->
-<script src="{{asset('plugins/jquery-knob/jquery.knob.min.js')}}"></script>
-<!-- daterangepicker -->
+<script>$.widget.bridge('uibutton', $.ui.button)</script>
 <script src="{{asset('plugins/moment/moment.min.js')}}"></script>
+<script src="{{asset('plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+
+
+
+<!-- JS Libraries -->
+@stack('page-script')
+
+
+
+<script src="{{asset('plugins/chart.js/Chart.min.js')}}"></script>
+<script src="{{asset('plugins/sparklines/sparkline.js')}}"></script>
+<script src="{{asset('plugins/jqvmap/jquery.vmap.min.js')}}"></script>
+<script src="{{asset('plugins/jquery-knob/jquery.knob.min.js')}}"></script>
 <script src="{{asset('plugins/daterangepicker/daterangepicker.js')}}"></script>
-<!-- Tempusdominus Bootstrap 4 -->
 <script src="{{asset('plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js')}}"></script>
-<!-- Summernote -->
 <script src="{{asset('plugins/summernote/summernote-bs4.min.js')}}"></script>
-<!-- overlayScrollbars -->
-<script src="{{asset('plugins/summernote/summernote-bs4.min.js')}}"></script>
-<!-- AdminLTE App -->
-<script src="{{asset('dist/js/adminlte.js')}}" ></script>
-<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<script src="{{asset('dist/js/pages/dashboard.js')}}"></script>
-<!-- AdminLTE for demo purposes -->
+
+<script src="{{asset('plugins/select2/js/select2.full.min.js')}}"></script>
+<script src="{{asset('plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js')}}"></script>
+<script src="{{asset('plugins/moment/moment.min.js')}}"></script>
+<script src="{{asset('plugins/inputmask/min/jquery.inputmask.bundle.min.js')}}"></script>
+<script src="{{asset('plugins/bootstrap-switch/js/bootstrap-switch.min.js')}}"></script>
+
+
+<!-- Template JS -->
 <script src="{{asset('dist/js/demo.js')}}" ></script>
+<script src="{{asset('dist/js/adminlte.js')}}" ></script>
+
+@stack('after-script')
+
 </body>
 </html>
