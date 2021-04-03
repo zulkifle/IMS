@@ -66,7 +66,7 @@
               <!-- /.card-body -->
             </div>
             <!-- /.card -->
-            {{$ListofItems->links('pagination::Bootstrap-4')}}
+            {{$ListofItems->links()}}
           </div>
           <!-- /.col -->
         </div>
