@@ -109,9 +109,17 @@
             </div>
           </div>
           <!-- /.card-body -->
+          
+        </div>
+        <div class="row text-center mt-5 mb-3">
+          <div class="col-9">
+              <a href="{{ route('home')}}" class="btn btn-secondary">Cancel</a>
+              <input type="submit" value="Proceed" id="btnSubmit" class="btn btn-success float-right">
+          </div>
         </div>
         <!-- /.card -->
       </div>
+      
     </div>
     </div>
   </form>
